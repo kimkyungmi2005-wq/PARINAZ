@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حالِ خوب من | وب‌سایت جامع سلامت روان دانش‌آموزی</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        vazir: ['Vazirmatn', 'sans-serif'],
+                    },
+                    colors: {
+                        brandPrimary: '#6C5CE7',
+                        brandSecondary: '#00CEC9',
+                        brandAccent: '#FD79A8',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(135deg, #1e1e2f 0%, #2a2a40 50%, #1a1a2e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, #00CEC9, #FD79A8, #a8c0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bubble-btn {
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .bubble-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+        }
+        .bubble-btn:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        .pop-animation {
+            animation: popIn 0.3s ease-out forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-white min-h-screen flex flex-col justify-between">
+
+    <header class="fixed top-0 left-0 right-0 z-50 p-4">
+        <nav class="max-w-7xl mx-auto glass-nav rounded-2xl px-4 py-3 flex items-center justify-between shadow-2xl">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('home')">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-pink-500 flex items-center justify-center text-white text-xl shadow-lg">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                </div>
+                <span class="font-black text-xl tracking-tight gradient-text">حالِ خوب من</span>
+            </div>
+
+            <!-- Desktop Nav Links -->
+            <div class="hidden md:flex items-center gap-2">
+                <button onclick="navigateTo('home')" class="nav-btn px-4 py-2 rounded-xl text-sm font-medium transition hover:bg-white/20 active-nav" id="btn-home"><i class="fa-solid fa-house ml-2"></i>صفحه اصلی</button>
+                <button onclick="navigateTo('topics')" class="nav-btn px-4 py-2 rounded-xl text-sm font-medium transition hover:bg-white/20" id="btn-topics"><i class="fa-solid fa-brain ml-2"></i>موضوعات</button>
+                <button onclick="navigateTo('listen')" class="nav-btn px-4 py-2 rounded-xl text-sm font-medium transition hover:bg-white/20" id="btn-listen"><i class="fa-solid fa-ear-listen ml-2"></i>گوش شنوا</button>
+                <button onclick="navigateTo('gallery')" class="nav-btn px-4 py-2 rounded-xl text-sm font-medium transition hover:bg-white/20" id="btn-gallery"><i class="fa-solid fa-palette ml-2"></i>گالری آثار</button>
+                <button onclick="navigateTo('mood')" class="nav-btn px-4 py-2 rounded-xl text-sm font-medium bg-gradient-to-r from-teal-400 to-indigo-500 text-slate-900 font-bold hover:opacity-90 shadow-lg" id="btn-mood"><i class="fa-solid fa-smile ml-2"></i>حالت چطوره؟</button>
+                <button onclick="navigateTo('user')" class="nav-btn px-4 py-2 rounded-xl text-sm font-medium transition hover:bg-white/20" id="btn-user"><i class="fa-solid fa-user-gear ml-2"></i>پنل کاربر</button>
+                <button onclick="navigateTo('author')" class="nav-btn px-4 py-2 rounded-xl text-sm font-medium bg-pink-500/30 border border-pink-400/40 hover:bg-pink-500/40 text-pink-200" id="btn-author"><i class="fa-solid fa-user-astronaut ml-2"></i>سازنده (پریناز)</button>
+            </div>
+
+            <!-- Mobile menu trigger -->
+            <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-xl text-white focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </nav>
+
+        <!-- Mobile Nav Menu -->
+        <div id="mobile-menu" class="hidden md:hidden max-w-7xl mx-auto mt-2 glass-panel rounded-2xl p-4 flex flex-col gap-2 shadow-2xl pop-animation">
+            <button onclick="navigateTo('home'); toggleMobileMenu();" class="text-right px-4 py-2 rounded-xl text-sm font-medium hover:bg-white/20"><i class="fa-solid fa-house ml-2"></i>صفحه اصلی</button>
+            <button onclick="navigateTo('topics'); toggleMobileMenu();" class="text-right px-4 py-2 rounded-xl text-sm font-medium hover:bg-white/20"><i class="fa-solid fa-brain ml-2"></i>موضوعات مسابقه</button>
+            <button onclick="navigateTo('listen'); toggleMobileMenu();" class="text-right px-4 py-2 rounded-xl text-sm font-medium hover:bg-white/20"><i class="fa-solid fa-ear-listen ml-2"></i>گوش شنوا</button>
+            <button onclick="navigateTo('gallery'); toggleMobileMenu();" class="text-right px-4 py-2 rounded-xl text-sm font-medium hover:bg-white/20"><i class="fa-solid fa-palette ml-2"></i>گالری آثار و آپلود</button>
+            <button onclick="navigateTo('mood'); toggleMobileMenu();" class="text-right px-4 py-2 rounded-xl text-sm font-bold bg-teal-400 text-slate-900"><i class="fa-solid fa-smile ml-2"></i>حالت چطوره؟ (تست + بازی)</button>
+            <button onclick="navigateTo('user'); toggleMobileMenu();" class="text-right px-4 py-2 rounded-xl text-sm font-medium hover:bg-white/20"><i class="fa-solid fa-user-gear ml-2"></i>پنل کاربری</button>
+            <button onclick="navigateTo('author'); toggleMobileMenu();" class="text-right px-4 py-2 rounded-xl text-sm font-medium text-pink-300"><i class="fa-solid fa-user-astronaut ml-2"></i>درباره سازنده (پریناز)</button>
+        </div>
+    </header>
+
+    <main class="pt-28 pb-16 px-4 max-w-7xl mx-auto w-full flex-grow">
+
+        <!-- ================= PAGE 1: HOME ================= -->
+        <section id="view-home" class="page-view space-y-12 pop-animation">
+            <!-- Hero Banner -->
+            <div class="glass-panel rounded-3xl p-8 md:p-12 text-center relative overflow-hidden border border-white/20 shadow-2xl">
+                <div class="absolute -top-20 -left-20 w-60 h-60 bg-indigo-500/30 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-20 -right-20 w-60 h-60 bg-pink-500/30 rounded-full blur-3xl pointer-events-none"></div>
+
+                <span class="inline-block px-4 py-1.5 rounded-full bg-white/10 text-teal-300 text-xs font-bold border border-teal-400/30 mb-4">
+                    ✨ ویژه هفته سلامت روان دانش‌آموزی
+                </span>
+                <h1 class="text-3xl md:text-5xl font-black leading-tight mb-6 tracking-wide">
+                    ارتقای سلامت روان؛ <span class="gradient-text">کلید موفقیت و نشاط دانش‌آموزان</span>
+                </h1>
+                <p class="text-slate-300 text-base md:text-lg max-w-3xl mx-auto leading-relaxed font-light mb-8">
+                    سلامت روان فقط به معنای عدم وجود بیماری نیست؛ بلکه داشتن حس ارزشمندی، توانایی مواجهه با استرس‌های روزمره تحصیلی، برقراری ارتباط موثر با دوستان و خانواده و داشتن امیدی روشن به آینده است. هفته سلامت روان فرصتی است تا با هم یاد بگیریم چگونه از روح و ذهن خود مراقبت کنیم.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button onclick="navigateTo('mood')" class="bubble-btn px-8 py-3.5 rounded-2xl bg-gradient-to-r from-teal-400 to-indigo-500 text-slate-900 font-extrabold shadow-xl hover:shadow-teal-500/20 text-base">
+                        <i class="fa-solid fa-face-smile ml-2"></i>تست سریع حالت چطوره؟
+                    </button>
+                    <button onclick="navigateTo('listen')" class="bubble-btn px-8 py-3.5 rounded-2xl glass-panel hover:bg-white/20 text-white font-bold border border-white/30 text-base">
+                        <i class="fa-solid fa-comments ml-2"></i>گفتگو در بخش گوش شنوا
+                    </button>
+                </div>
+            </div>
+
+            <!-- Detailed Explanation Section -->
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-teal-500/20 text-teal-300 flex items-center justify-center text-2xl font-bold">
+                        <i class="fa-solid fa-shield-heart"></i>
+                    </div>
+                    <h3 class="text-xl font-bold">خودآگاهی و مدیریت هیجان</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        شناخت احساسات خود در دوران مدرسه مثل اضطراب امتحانات یا خستگی روزمره اولین گام برای کنترل آنهاست. با پذیرش احساسات می‌توانیم راهکارهای سالمی برای آرامش پیدا کنیم.
+                    </p>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center text-2xl font-bold">
+                        <i class="fa-solid fa-people-group"></i>
+                    </div>
+                    <h3 class="text-xl font-bold">روابط صمیمانه و همدلی</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        داشتن دوستان همدل و گفتگو درباره دغدغه‌ها باعث کاهش بار روانی می‌شود. محیط مدرسه باید پناهگاهی امن برای ابراز نظر و ابراز وجود بدون ترس از قضاوت باشد.
+                    </p>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-pink-500/20 text-pink-300 flex items-center justify-center text-2xl font-bold">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <h3 class="text-xl font-bold">تاب‌آوری در چالش‌ها</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        شکت‌ها و اشتباهات بخشی از مسیر رشد هستند. افزایش تاب‌آوری به ما کمک می‌کند پس از هر سختی دوباره لبخند بزنیم و پرقدرت‌تر به مسیر خود ادامه دهیم.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Quick Access Navigation Cards at bottom of Home -->
+            <div class="pt-6">
+                <h2 class="text-2xl font-black mb-6 text-center gradient-text">کارت‌های دسترسی سریع به بخش‌های اصلی سایت</h2>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <div onclick="navigateTo('topics')" class="glass-panel p-6 rounded-2xl cursor-pointer bubble-btn border border-white/15 hover:border-teal-400/50 transition">
+                        <i class="fa-solid fa-brain text-3xl text-teal-400 mb-3"></i>
+                        <h4 class="font-bold text-lg mb-1">محورهای مسابقه</h4>
+                        <p class="text-xs text-slate-300">۷ موضوع اختصاصی هفته سلامت روان</p>
+                    </div>
+                    <div onclick="navigateTo('listen')" class="glass-panel p-6 rounded-2xl cursor-pointer bubble-btn border border-white/15 hover:border-indigo-400/50 transition">
+                        <i class="fa-solid fa-ear-listen text-3xl text-indigo-400 mb-3"></i>
+                        <h4 class="font-bold text-lg mb-1">گوش شنوا</h4>
+                        <p class="text-xs text-slate-300">ارسال درددل محرمانه و چت تعاملی</p>
+                    </div>
+                    <div onclick="navigateTo('gallery')" class="glass-panel p-6 rounded-2xl cursor-pointer bubble-btn border border-white/15 hover:border-pink-400/50 transition">
+                        <i class="fa-solid fa-palette text-3xl text-pink-400 mb-3"></i>
+                        <h4 class="font-bold text-lg mb-1">گالری و آپلود اثر</h4>
+                        <p class="text-xs text-slate-300">نمایش نقاشی و کارهای AI و ارسال تصویر</p>
+                    </div>
+                    <div onclick="navigateTo('mood')" class="glass-panel p-6 rounded-2xl cursor-pointer bubble-btn border border-white/15 hover:border-amber-400/50 transition">
+                        <i class="fa-solid fa-gamepad text-3xl text-amber-400 mb-3"></i>
+                        <h4 class="font-bold text-lg mb-1">تست حال خوب + بازی</h4>
+                        <p class="text-xs text-slate-300">۴ حالت روحی به همراه مینی‌گیم ضداسپم</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= PAGE 2: TOPICS ================= -->
+        <section id="view-topics" class="page-view hidden space-y-8 pop-animation">
+            <div class="text-center max-w-2xl mx-auto space-y-3">
+                <h2 class="text-3xl font-black gradient-text">محورهای ۷گانه مسابقه سلامت روان</h2>
+                <p class="text-slate-300 text-sm">موضوعات رسمی برای ارائه آثار هنری، مقاله، نقاشی و ابزارهای هوش مصنوعی</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="topics-grid">
+                <!-- Topics inserted dynamically via JS -->
+            </div>
+        </section>
+
+
+        <!-- ================= PAGE 3: LISTEN (GOOSH SHENOVA) ================= -->
+        <section id="view-listen" class="page-view hidden space-y-8 pop-animation">
+            <div class="text-center max-w-2xl mx-auto space-y-2">
+                <h2 class="text-3xl font-black text-indigo-300">بخش گوش شنوا 🎧</h2>
+                <p class="text-slate-300 text-sm">اینجا یک محیط امن و بدون قضاوت است. می‌توانید پیام محرمانه بفرستید یا با مشاور هوشمند گفتگو کنید.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Anonymous Message Form -->
+                <div class="glass-panel p-6 rounded-3xl border border-white/15 space-y-4">
+                    <h3 class="text-xl font-bold flex items-center gap-2 text-pink-300">
+                        <i class="fa-solid fa-paper-plane"></i> ارسال درددل / پیام محرمانه
+                    </h3>
+                    <p class="text-xs text-slate-300">پیام شما کاملاً ناشناس ثبت می‌شود و در پنل مشاوره مدرسه بررسی خواهد شد.</p>
+                    <form onsubmit="handleSecretMessage(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold mb-1 text-slate-300">عنوان موضوع</label>
+                            <input type="text" id="secretTopic" required placeholder="مثلاً: استرس امتحانات پایان ترم" class="w-full bg-slate-800/80 border border-white/20 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-400">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold mb-1 text-slate-300">متن پیام یا درددل شما</label>
+                            <textarea id="secretText" rows="4" required placeholder="هر چه در دل داری بدون نگرانی بنویس..." class="w-full bg-slate-800/80 border border-white/20 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-400"></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-indigo-600 font-bold text-sm shadow-lg bubble-btn">
+                            ارسال محرمانه و ناشناس ✨
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Simulated Interactive Live Chat -->
+                <div class="glass-panel p-6 rounded-3xl border border-white/15 flex flex-col h-[420px]">
+                    <h3 class="text-xl font-bold flex items-center gap-2 text-teal-300 mb-3">
+                        <i class="fa-solid fa-robot"></i> گفتگوی تعاملی با دستیار همدل
+                    </h3>
+                    <div id="chat-box" class="flex-grow bg-slate-900/60 rounded-2xl p-4 overflow-y-auto space-y-3 border border-white/10 text-sm">
+                        <div class="bg-indigo-600/40 border border-indigo-400/30 p-3 rounded-2xl max-w-[85%] text-slate-100">
+                            سلام دوست عزیزم! من دستیار گوش شنوا هستم. امروز چه احساسی داری یا دوست داری در مورد چه موضوعی با هم صحبت کنیم؟
+                        </div>
+                    </div>
+                    <div class="mt-3 flex gap-2">
+                        <input type="text" id="chat-input" placeholder="پیام خود را بنویسید..." class="flex-grow bg-slate-800/80 border border-white/20 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-teal-400" onkeypress="if(event.key==='Enter') sendChatMessage()">
+                        <button onclick="sendChatMessage()" class="bg-teal-400 text-slate-900 font-bold px-5 py-2 rounded-xl text-sm bubble-btn">
+                            ارسال
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= PAGE 4: GALLERY & UPLOAD ================= -->
+        <section id="view-gallery" class="page-view hidden space-y-8 pop-animation">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 border-b border-white/10 pb-6">
+                <div>
+                    <h2 class="text-3xl font-black gradient-text">گالری آثار دانش‌آموزی</h2>
+                    <p class="text-slate-300 text-sm mt-1">نمایش نقاشی‌های دستی، دیجیتال و آثار خلق شده با هوش مصنوعی</p>
+                </div>
+                <button onclick="scrollToUpload()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-pink-500 to-indigo-500 font-bold text-sm shadow-lg bubble-btn">
+                    <i class="fa-solid fa-cloud-arrow-up ml-2"></i>آپلود اثر جدید
+                </button>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div id="gallery-container" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Default Items & Uploaded Items will render here -->
+            </div>
+
+            <!-- Upload Real Image Form Section -->
+            <div id="upload-section" class="glass-panel p-8 rounded-3xl border border-white/20 space-y-6 max-w-3xl mx-auto mt-12">
+                <div class="text-center space-y-2">
+                    <h3 class="text-2xl font-black text-teal-300">📤 فرم آپلود و ثبت اثر در گالری</h3>
+                    <p class="text-xs text-slate-300">تصویر نقاشی یا خروجی هوش مصنوعی خود را انتخاب کنید تا بلافاصله در گالری نمایش داده شود.</p>
+                </div>
+
+                <form onsubmit="handleRealUpload(event)" class="space-y-4">
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold mb-1 text-slate-300">عنوان اثر *</label>
+                            <input type="text" id="upTitle" required placeholder="مثلاً: لبخند ذهن" class="w-full bg-slate-800 border border-white/20 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-teal-400">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold mb-1 text-slate-300">نام و نام خانوادگی پدیدآورنده *</label>
+                            <input type="text" id="upAuthor" required placeholder="مثلاً: پریناز محمدی" class="w-full bg-slate-800 border border-white/20 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-teal-400">
+                        </div>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold mb-1 text-slate-300">نوع اثر *</label>
+                            <select id="upType" class="w-full bg-slate-800 border border-white/20 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-teal-400">
+                                <option value="painting">🎨 نقاشی دستی / مدادرنگی / آبرنگ</option>
+                                <option value="ai">🤖 خلق‌شده با هوش مصنوعی</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold mb-1 text-slate-300">نام ابزار / نرم‌افزار</label>
+                            <input type="text" id="upTool" placeholder="مثلاً: Midjourney یا مدادرنگی Faber" class="w-full bg-slate-800 border border-white/20 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-teal-400">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold mb-1 text-slate-300">انتخاب فایل تصویر از دستگاه (عکس خود را انتخاب کنید) *</label>
+                        <input type="file" id="upFile" accept="image/*" required onchange="previewImage(event)" class="w-full bg-slate-800/60 border border-white/20 rounded-xl p-2 text-xs text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-teal-400 file:text-slate-900 cursor-pointer">
+                    </div>
+
+                    <!-- Image Preview Container -->
+                    <div id="preview-box" class="hidden text-center p-3 border border-dashed border-teal-400/50 rounded-2xl bg-slate-900/50">
+                        <p class="text-xs text-teal-300 font-bold mb-2">پیش‌نمایش تصویر انتخابی شما:</p>
+                        <img id="img-preview-tag" class="max-h-48 mx-auto rounded-xl object-contain border border-white/10 shadow-md">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold mb-1 text-slate-300">توضیح مختصر در مورد مفهوم اثر</label>
+                        <textarea id="upDesc" rows="3" placeholder="این اثر نشان‌دهنده حس امید و نشاط در مدرسه است..." class="w-full bg-slate-800 border border-white/20 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-teal-400"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-teal-400 via-indigo-500 to-pink-500 text-slate-900 font-black text-base shadow-xl bubble-btn">
+                        تایید و نمایش فوری در گالری ✨
+                    </button>
+                </form>
+            </div>
+        </section>
+
+
+        <!-- ================= PAGE 5: MOOD TEST & GAMES ================= -->
+        <section id="view-mood" class="page-view hidden space-y-8 pop-animation">
+            <div class="text-center max-w-2xl mx-auto space-y-3">
+                <h2 class="text-3xl font-black text-teal-300">امروز حالت چطوره؟ 😊</h2>
+                <p class="text-slate-300 text-sm">حالت روحی خودت رو انتخاب کن تا علاوه بر راهکارهای علمی روان‌شناسی، یک مینی‌بازی سرگرم‌کننده و خنده‌دار برای تغییر حال و هوات باز بشه!</p>
+            </div>
+
+            <!-- Mood Buttons -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+                <button onclick="selectMood('happy')" class="glass-panel p-6 rounded-2xl border border-white/15 hover:border-amber-400 flex flex-col items-center gap-2 bubble-btn group">
+                    <span class="text-5xl group-hover:scale-125 transition">😊</span>
+                    <span class="font-bold text-base text-amber-300">شاد و پرانرژی</span>
+                </button>
+                <button onclick="selectMood('stressed')" class="glass-panel p-6 rounded-2xl border border-white/15 hover:border-indigo-400 flex flex-col items-center gap-2 bubble-btn group">
+                    <span class="text-5xl group-hover:scale-125 transition">😰</span>
+                    <span class="font-bold text-base text-indigo-300">مضطرب / استرسی</span>
+                </button>
+                <button onclick="selectMood('tired')" class="glass-panel p-6 rounded-2xl border border-white/15 hover:border-teal-400 flex flex-col items-center gap-2 bubble-btn group">
+                    <span class="text-5xl group-hover:scale-125 transition">🥱</span>
+                    <span class="font-bold text-base text-teal-300">خسته / بی انگیزه</span>
+                </button>
+                <button onclick="selectMood('sad')" class="glass-panel p-6 rounded-2xl border border-white/15 hover:border-pink-400 flex flex-col items-center gap-2 bubble-btn group">
+                    <span class="text-5xl group-hover:scale-125 transition">😔</span>
+                    <span class="font-bold text-base text-pink-300">غمگین / دلتنگ</span>
+                </button>
+            </div>
+
+            <!-- Result Box + Dynamic Mini-Game Container -->
+            <div id="mood-result-container" class="hidden glass-panel p-8 rounded-3xl border border-white/20 max-w-4xl mx-auto space-y-6">
+                <!-- Psychological Advice -->
+                <div class="bg-white/10 p-5 rounded-2xl border border-white/15 space-y-2">
+                    <h3 id="advice-title" class="text-xl font-bold text-teal-300"></h3>
+                    <p id="advice-text" class="text-slate-200 text-sm leading-relaxed"></p>
+                </div>
+
+                <!-- Interactive Mini Game Section -->
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                        <h4 id="game-title" class="font-bold text-lg text-amber-300 flex items-center gap-2">
+                            <i class="fa-solid fa-gamepad"></i> بازی آنلاین ضداسپم و تغییر فاز!
+                        </h4>
+                        <span id="game-score" class="text-xs bg-white/20 px-3 py-1 rounded-full font-mono">امتیاز: 0</span>
+                    </div>
+
+                    <!-- Mini Game Viewport -->
+                    <div id="game-viewport" class="bg-slate-950/80 rounded-2xl p-6 border border-white/10 min-h-[260px] flex flex-col items-center justify-center relative overflow-hidden text-center">
+                        <!-- Dynamic Game HTML Injected Here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= PAGE 7: ABOUT AUTHOR (PRINAZ) ================= -->
+        <section id="view-author" class="page-view hidden space-y-8 pop-animation">
+            <div class="glass-panel p-8 md:p-12 rounded-3xl border border-white/20 max-w-4xl mx-auto space-y-8 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-48 h-48 bg-pink-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <!-- Avatar / Image -->
+                    <div class="w-40 h-40 md:w-48 md:h-48 rounded-3xl bg-gradient-to-tr from-pink-500 via-indigo-500 to-teal-400 p-1.5 shadow-2xl shrink-0">
+                        <img src="parinaz.jpg" class="creator-img" onerror="this.src='https://via.placeholder.com/150'"> 
+                    </div>
+
+                    <!-- Details -->
+                    <div class="space-y-3 text-center md:text-right">
+                        <span class="px-3 py-1 bg-pink-500/30 text-pink-300 border border-pink-400/30 text-xs font-bold rounded-full">
+                            👩‍💻 طراح و برنامه‌نویس پروژه
+                        </span>
+                        <h2 class="text-3xl font-black text-white">پریناز نادری</h2>
+                        <p class="text-teal-300 font-semibold text-sm">دانش‌آموز پایه نهم</p>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            این وب‌سایت با هدف ارائه یک پایگاه مدرن، جذاب و همگام با فناوری‌های روز برای مسابقه هفته سلامت روان طراحی شده است. استفاده از ترکیب طراحی شیشه‌ای (Glassmorphic)، هوش مصنوعی، مینی‌بازی‌های روان‌شناختی و فرم‌های تعاملی از ویژگی‌های شاخص این پروژه است.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Mission Cards -->
+                <div class="grid sm:grid-cols-2 gap-4 pt-4">
+                    <div class="p-5 bg-slate-800/60 rounded-2xl border border-white/10 space-y-2">
+                        <h4 class="font-bold text-teal-300"><i class="fa-solid fa-bullseye ml-2"></i>هدف اصلی پروژه</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            خروج از قالب وب‌سایت‌های قدیمی و ارائه تجربه‌ای زنده، صمیمی و کاربردی برای تمام دانش‌آموزانی که نیازمند دیده شدن و شنیده شدن هستند.
+                        </p>
+                    </div>
+                    <div class="p-5 bg-slate-800/60 rounded-2xl border border-white/10 space-y-2">
+                        <h4 class="font-bold text-pink-300"><i class="fa-solid fa-wand-magic-sparkles ml-2"></i>نقش هوش مصنوعی</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            ترکیب ابزارهای هوش مصنوعی تولید تصویر و چت تعاملی جهت کمک به بهبود حس و حال دانش‌آموزان و ارائه ایده‌های نو.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="artModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel p-6 rounded-3xl border border-white/20 max-w-xl w-full space-y-4 relative pop-animation">
+            <button onclick="closeModal()" class="absolute top-4 left-4 text-slate-400 hover:text-white text-2xl font-bold">&times;</button>
+            <img id="modalImg" class="w-full max-h-72 object-cover rounded-2xl border border-white/10">
+            <div class="space-y-2">
+                <span id="modalBadge" class="inline-block px-3 py-1 rounded-lg text-xs font-bold bg-indigo-500 text-white"></span>
+                <h3 id="modalTitle" class="text-xl font-bold text-teal-300"></h3>
+                <p id="modalAuthor" class="text-xs text-slate-300 font-medium"></p>
+                <p id="modalDesc" class="text-xs text-slate-200 leading-relaxed bg-slate-900/50 p-3 rounded-xl border border-white/5"></p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="glass-panel border-t border-white/10 py-6 text-center text-xs text-slate-400">
+        <p>طراحی و توسعه یافته با ❤️ توسط <span class="text-pink-300 font-bold">پریناز نادری </span> برای مسابقه هفته سلامت روان دانش‌آموزی</p>
+    </footer>
+
+
+    <script>
+        const topicsData = [
+            { id: 1, icon: 'fa-school', title: '۱. مدرسه امن و حمایت‌گر', desc: 'محیطی بدون استرس تحصیلی که حس ارزشمندی و تعلق خاطر را در دانش‌آموزان بوجود می‌آورد.' },
+            { id: 2, icon: 'fa-ear-listen', title: '۲. گوش سپردن به ناگفته‌ها', desc: 'ایجاد فضایی صمیمی برای شنیدن دغدغه‌ها و احساسات دانش‌آموزان بدون قضاوت.' },
+            { id: 3, icon: 'fa-seedling', title: '۳. رشد تاب‌آوری در چالش‌ها', desc: 'آموزش مهارت‌های مواجهه با مشکلات و بازگشت به تعادل پس از افت تحصیلی یا استرس.' },
+            { id: 4, icon: 'fa-sun', title: '۴. امیدآفرینی و نشاط اجتماعی', desc: 'تقویت روحیه همکاری، بازی‌های گروهی و نگاه مثبت به آینده در محیط مدرسه.' },
+            { id: 5, icon: 'fa-brain', title: '۵. مدیریت اضطراب امتحانات', desc: 'تکنیک‌های علمی تنفس آرامشبخش و برنامه‌ریزی بدون استرس برای روزهای امتحان.' },
+            { id: 6, icon: 'fa-laptop-code', title: '۶. سلامت روان در فضای مجازی', desc: 'استفاده آگاهانه از شبکه‌های اجتماعی و ابزارهای هوش مصنوعی بدون آسیب به آرامش ذهن.' },
+            { id: 7, icon: 'fa-hand-holding-heart', title: '۷. همدلی و یاری‌گری همسالان', desc: 'حمایت دانش‌آموزان از یکدیگر در روزهای سخت و دوستی‌های پایدار و انرژی‌بخش.' }
+        ];
+
+        let galleryItems = [
+            {
+                id: 1,
+                title: 'امید در مدرسه',
+                author: '  پریناز نادری',
+                type: 'painting',
+                tool: 'مدادرنگی و آبرنگ',
+                desc: 'این نقاشی نشان‌دهنده شکوفایی درخت دانش در محیطی پر از نور و رنگ‌های شاد است.',
+                img: 'https://picsum.photos/600/400?random=10'
+            },
+            {
+                id: 2,
+                title: 'رویای آرامش ذهن',
+                author: 'زهرا دانش‌آموز نهم',
+                type: 'ai',
+                tool: 'Midjourney v6',
+                desc: 'طراحی‌شده با دستور هوش مصنوعی برای به تصویر کشیدن افکار مثبت و رهایی از استرس.',
+                img: 'https://picsum.photos/600/400?random=20'
+            }
+        ];
+
+        function navigateTo(viewId) {
+            document.querySelectorAll('.page-view').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById('view-' + viewId);
+            if (target) {
+                target.classList.remove('hidden');
+            }
+
+            // Update Nav Active state
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-white/20');
+            });
+            const activeBtn = document.getElementById('btn-' + viewId);
+            if (activeBtn && viewId !== 'mood') {
+                activeBtn.classList.add('bg-white/20');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function renderTopics() {
+            const container = document.getElementById('topics-grid');
+            container.innerHTML = topicsData.map(item => `
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 space-y-3 bubble-btn">
+                    <div class="w-12 h-12 rounded-xl bg-teal-400/20 text-teal-300 flex items-center justify-center text-2xl">
+                        <i class="fa-solid ${item.icon}"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">${item.title}</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">${item.desc}</p>
+                </div>
+            `).join('');
+        }
+
+        function renderGallery() {
+            const container = document.getElementById('gallery-container');
+            container.innerHTML = galleryItems.map(item => `
+                <div onclick="openModal('${item.title}', '${item.author}', '${item.tool}', '${item.desc}', '${item.img}')" class="glass-panel rounded-2xl overflow-hidden border border-white/15 cursor-pointer bubble-btn group">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="${item.img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
+                        <span class="absolute top-3 right-3 px-3 py-1 rounded-full text-[10px] font-bold ${item.type === 'ai' ? 'bg-teal-400 text-slate-900' : 'bg-pink-500 text-white'}">
+                            ${item.type === 'ai' ? '🤖 AI' : '🎨 نقاشی'}
+                        </span>
+                    </div>
+                    <div class="p-4 space-y-1">
+                        <h4 class="font-bold text-base text-white">${item.title}</h4>
+                        <p class="text-xs text-slate-300">سازنده: ${item.author}</p>
+                    </div>
+                </div>
+            `).join('');
+            
+            document.getElementById('stat-uploads').innerText = galleryItems.length;
+        }
+
+        let selectedImageDataUrl = null;
+
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    selectedImageDataUrl = e.target.result;
+                    document.getElementById('img-preview-tag').src = selectedImageDataUrl;
+                    document.getElementById('preview-box').classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleRealUpload(event) {
+            event.preventDefault();
+            const title = document.getElementById('upTitle').value;
+            const author = document.getElementById('upAuthor').value;
+            const type = document.getElementById('upType').value;
+            const tool = document.getElementById('upTool').value || (type === 'ai' ? 'هوش مصنوعی' : 'نقاشی دستی');
+            const desc = document.getElementById('upDesc').value || 'بدون توضیحات اضافی';
+
+            if (!selectedImageDataUrl) {
+                alert('لطفاً یک تصویر از دستگاه خود انتخاب کنید.');
+                return;
+            }
+
+            const newItem = {
+                id: Date.now(),
+                title: title,
+                author: author,
+                type: type,
+                tool: tool,
+                desc: desc,
+                img: selectedImageDataUrl
+            };
+
+            galleryItems.unshift(newItem);
+            renderGallery();
+
+            // Add to User Activity Log
+            const logs = document.getElementById('user-logs');
+            logs.innerHTML = `
+                <div class="p-3 bg-slate-800/40 rounded-xl border border-white/5 flex justify-between items-center text-teal-300">
+                    <span>🎨 آپلود اثر جدید با عنوان «${title}»</span>
+                    <span class="text-slate-400">همین الان</span>
+                </div>
+            ` + logs.innerHTML;
+
+            alert('✨ اثر شما با موفقیت در گالری ثبت شد!');
+            document.getElementById('upTitle').value = '';
+            document.getElementById('upAuthor').value = '';
+            document.getElementById('upDesc').value = '';
+            document.getElementById('upFile').value = '';
+            document.getElementById('preview-box').classList.add('hidden');
+            selectedImageDataUrl = null;
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function scrollToUpload() {
+            document.getElementById('upload-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function openModal(title, author, tool, desc, img) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalAuthor').innerText = 'پدیدآورنده: ' + author;
+            document.getElementById('modalBadge').innerText = 'ابزار/سبک: ' + tool;
+            document.getElementById('modalDesc').innerText = desc;
+            document.getElementById('modalImg').src = img;
+            document.getElementById('artModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('artModal').classList.add('hidden');
+        }
+
+        function handleSecretMessage(event) {
+            event.preventDefault();
+            alert('🔒 پیام شما به‌صورت کاملاً محرمانه ارسال شد و با تشکر ثبت گردید.');
+            document.getElementById('secretTopic').value = '';
+            document.getElementById('secretText').value = '';
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const box = document.getElementById('chat-box');
+            
+            // Add user message
+            box.innerHTML += `
+                <div class="bg-teal-500/30 border border-teal-400/30 p-3 rounded-2xl max-w-[85%] mr-auto text-slate-100 text-left dir-ltr">
+                    ${text}
+                </div>
+            `;
+
+            input.value = '';
+            box.scrollTop = box.scrollHeight;
+
+            // Simulated empathetic reply
+            setTimeout(() => {
+                const replies = [
+                    'احساست رو کاملاً درک می‌کنم. صحبت کردن درباره این موضوع اولین قدم برای سبک شدن ذهنه.',
+                    'ممنون که این حس رو با من در میان گذاشتی! یادت باشه تو تنها نیستی و همیشه راهکاری وجود داره.',
+                    'خیلی خوبه که به احساساتت توجه می‌کنی. پیشنهاد می‌کنم چند نفس عمیق بکشی و به یک موسیقی آرامشبخش گوش بدی.'
+                ];
+                const randomReply = replies[Math.floor(Math.random() * replies.length)];
+                
+                box.innerHTML += `
+                    <div class="bg-indigo-600/40 border border-indigo-400/30 p-3 rounded-2xl max-w-[85%] text-slate-100">
+                        ${randomReply}
+                    </div>
+                `;
+                box.scrollTop = box.scrollHeight;
+            }, 800);
+        }
+
+
+        let currentGameScore = 0;
+
+        function selectMood(mood) {
+            const resultBox = document.getElementById('mood-result-container');
+            const title = document.getElementById('advice-title');
+            const text = document.getElementById('advice-text');
+            const gameViewport = document.getElementById('game-viewport');
+            
+            resultBox.classList.remove('hidden');
+            currentGameScore = 0;
+            updateGameScore();
+
+            if (mood === 'happy') {
+                title.innerText = '😊 انرژی مثبتت فوق‌العاده‌ست!';
+                text.innerText = 'وقتی حالت خوبه، بهترین زمان برای یادگیری چیزهای جدید و انتقال حس خوب به دوستانته. این بازی سرعت‌عمل رو بازی کن و رکورد بزن!';
+                initCatchSmileGame();
+            } else if (mood === 'stressed') {
+                title.innerText = '🧘‍♀️ آروم باش؛ استرس فقط یک حسه گذراست!';
+                text.innerText = 'چند نفس عمیق بکش (۴ ثانیه دم، ۴ ثانیه حبس، ۴ ثانیه بازدم). حالا برای تخلیه اضطراب، حباب‌های زیر رو بترکون!';
+                initBubbleWrapGame();
+            } else if (mood === 'tired') {
+                title.innerText = '🥱 وقت یک استراحت کوتاهه!';
+                text.innerText = 'ذهنت نیاز به ریکاوری داره. یک لیوان آب بخور و توی این مینی‌بازی کلیکی لبخندها رو بیدار کن!';
+                initCatchSmileGame();
+            } else if (mood === 'sad') {
+                title.innerText = '🫂 همه ما گاهی غمگین میشیم و این طبیعیه.';
+                text.innerText = 'غم نشان‌دهنده قلب مهربون توست. با یکی از دوستانت صحبت کن یا با این بازی خنده‌دار لبخند بزن!';
+                initBubbleWrapGame();
+            }
+
+            resultBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function updateGameScore() {
+            document.getElementById('game-score').innerText = 'امتیاز: ' + currentGameScore;
+        }
+
+        // Mini Game 1: Bubble Wrap Stress Relief
+        function initBubbleWrapGame() {
+            const viewport = document.getElementById('game-viewport');
+            viewport.innerHTML = `
+                <div class="w-full space-y-3">
+                    <p class="text-xs text-indigo-300 font-bold mb-2">🎈 بازی ترکاندن حباب‌های ضداسپم (تخلیه هیجان)</p>
+                    <div class="grid grid-cols-5 gap-3 max-w-sm mx-auto" id="bubble-grid">
+                        ${Array(15).fill(0).map((_, i) => `
+                            <button onclick="popBubble(this)" class="w-12 h-12 rounded-full bg-indigo-500/40 hover:bg-indigo-400 border border-indigo-300/40 flex items-center justify-center text-xl bubble-btn transition shadow-inner">
+                                🫧
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function popBubble(btn) {
+            if (btn.classList.contains('popped')) return;
+            btn.classList.add('popped');
+            btn.style.opacity = '0.3';
+            btn.innerText = '💥';
+            currentGameScore += 10;
+            updateGameScore();
+        }
+
+        // Mini Game 2: Catch The Smile
+        function initCatchSmileGame() {
+            const viewport = document.getElementById('game-viewport');
+            viewport.innerHTML = `
+                <div class="w-full h-full flex flex-col items-center justify-center space-y-4">
+                    <p class="text-xs text-teal-300 font-bold">🎯 بازی شکار لبخندهای طلایی (کلیک روی ایموجی‌های متحرک)</p>
+                    <button id="target-emoji" onclick="catchEmoji()" class="text-5xl bubble-btn p-4 bg-white/10 rounded-full border border-white/20 transition duration-150">
+                        😃
+                    </button>
+                </div>
+            `;
+            moveEmojiTarget();
+        }
+
+        function moveEmojiTarget() {
+            const btn = document.getElementById('target-emoji');
+            if (!btn) return;
+            const emojis = ['😃', '🌟', '🥳', '🦄', '🎈', '💖'];
+            btn.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        }
+
+        function catchEmoji() {
+            currentGameScore += 15;
+            updateGameScore();
+            moveEmojiTarget();
+        }
+
+        window.onload = function() {
+            renderTopics();
+            renderGallery();
+        };
+    </script>
+</body>
+</html>
